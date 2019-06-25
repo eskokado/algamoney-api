@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.eskinfotechweb.algamoneyapi.event.RecursoCriadoEvent;
+import br.com.eskinfotechweb.algamoneyapi.model.Endereco;
 import br.com.eskinfotechweb.algamoneyapi.model.Pessoa;
 import br.com.eskinfotechweb.algamoneyapi.repository.PessoaRepository;
 import br.com.eskinfotechweb.algamoneyapi.service.PessoaService;
@@ -66,7 +67,19 @@ public class PessoaResource {
 	
 	@PutMapping("/{codigo}")
 	public ResponseEntity<Pessoa> atualizar(@PathVariable Long codigo, @Valid @RequestBody Pessoa pessoa) {
-		Pessoa pessoaSalva = pessoaService.Atualizar(codigo, pessoa);
+		Pessoa pessoaSalva = pessoaService.atualizar(codigo, pessoa);
+		return ResponseEntity.ok(pessoaSalva);
+	}
+	
+	@PutMapping("/{codigo}/ativo")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void atualizaPropriedadeAtivo(@PathVariable Long codigo, @RequestBody Boolean ativo) {
+		pessoaService.atualizarPropriedadeAtivo(codigo, ativo);
+	}
+	
+	@PutMapping("/{codigo}/endereco")
+	public ResponseEntity<Pessoa> atualizaPropriedadeEndereco(@PathVariable Long codigo, @RequestBody Endereco endereco) {
+		Pessoa pessoaSalva = pessoaService.atualizarPropriedadeEndereco(codigo, endereco);
 		return ResponseEntity.ok(pessoaSalva);
 	}
 	
