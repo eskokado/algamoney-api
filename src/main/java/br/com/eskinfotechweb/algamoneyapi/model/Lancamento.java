@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -32,11 +35,14 @@ public class Lancamento implements Serializable {
 
 	@NotNull
 	@Column(name = "data_vencimento")
-	@JsonFormat(pattern =  "dd/MM/yyyy")
+//	@DateTimeFormat(pattern = "yyyy-MM-dd", iso = ISO.DATE)
+//	@JsonFormat(pattern = "dd/MM/yyyy")
+//	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
 	private LocalDate dataVencimento;
 
 	@Column(name = "data_pagamento")
-	@JsonFormat(pattern =  "dd/MM/yyyy")
+//	@JsonFormat(pattern = "dd/MM/yyyy")
+//	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
 	private LocalDate dataPagamento;
 
 	@NotNull
