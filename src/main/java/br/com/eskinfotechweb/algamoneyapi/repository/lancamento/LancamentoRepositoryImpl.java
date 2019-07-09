@@ -43,7 +43,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 					builder.sum(root.get(Lancamento_.valor))
 				)
 		);
-		LocalDate primeiroDia = mesReferencia.withDayOfMonth(1);
+		LocalDate primeiroDia = mesReferencia.minusYears(1).withDayOfMonth(1);
 		LocalDate ultimoDia = mesReferencia.withDayOfMonth(mesReferencia.lengthOfMonth());
 		
 		criteria.where(
