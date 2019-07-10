@@ -1,12 +1,12 @@
 package br.com.eskinfotechweb.algamoneyapi.config.property;
 
-import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("algamoney")
 public class AlgamoneyApiProperty {
 
-	@Value("${algamoney.origin-permitida}")
+//	@Value("${algamoney.origin-permitida}")
 	private String originPermitida;
 
 	private final Seguranca seguranca = new Seguranca();
@@ -19,6 +19,10 @@ public class AlgamoneyApiProperty {
 	
 	public String getOriginPermitida() {
 		return originPermitida;
+	}
+	
+	public void setOriginPermitida(String originPermitida) {
+		this.originPermitida = originPermitida;
 	}
 
 	public Seguranca getSeguranca() {
