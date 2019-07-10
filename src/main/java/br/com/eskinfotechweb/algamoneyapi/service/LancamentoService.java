@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import br.com.eskinfotechweb.algamoneyapi.dto.LancamentoEstatisticaPessoa;
@@ -31,6 +32,12 @@ public class LancamentoService {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+//	@Scheduled(fixedDelay = 1000 * 2)
+	@Scheduled(cron = "0 59 09 * * *")
+	public void avisarSobreLancamentosVencidos() {
+		System.out.println("Método sendo executado...");
+	}
 
 	public byte[] relatorioPorPessoa(LocalDate dt_inicio, LocalDate dt_fim) throws Exception {
 		List<LancamentoEstatisticaPessoa> dados = lancamentoRepository.porPessoa(dt_inicio, dt_fim);
