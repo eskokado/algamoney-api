@@ -19,6 +19,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import br.com.eskinfotechweb.algamoneyapi.model.Lancamento;
+import br.com.eskinfotechweb.algamoneyapi.model.Usuario;
 import br.com.eskinfotechweb.algamoneyapi.repository.LancamentoRepository;
 
 @Component
@@ -41,23 +42,42 @@ public class Mailer {
 //		System.out.println("Terminado o envio de e-mail...");
 //	}
 
-	@EventListener
-	private void teste(ApplicationReadyEvent event) {
+	
+//	 @EventListener private void teste(ApplicationReadyEvent event) { 
+//		 String template = "mail/aviso-lancamentos-vencidos.html";
+	  
+//		 List<Lancamento> lista = repo.findAll();
+		  
+//		 Map<String, Object> variaveis = new HashMap<>(); variaveis.put("lancamentos",
+//		 lista);
+		 
+//		 this.enviarEmail("edsonskok@gmail.com", Arrays.asList("eskokado@gmail.com"),
+//		 "Testando Thymeleaf", template, variaveis);
+		 
+//		 System.out.println("Terminado o envio de e-mail..."); 
+//	 }
+	 
+	 
+
+	public void avisarSobreLancamentosVencidos(
+		List<Lancamento> vencidos, List<Usuario> destinatarios
+	) {
+		
 		String template = "mail/aviso-lancamentos-vencidos.html";
 		
-		List<Lancamento> lista = repo.findAll();
-		
 		Map<String, Object> variaveis = new HashMap<>();
-		variaveis.put("lancamentos", lista);
+		variaveis.put("lancamentos", vencidos);
 		
-		this.enviarEmail("edsonskok@gmail.com", 
-				Arrays.asList("eskokado@gmail.com"), 
-				"Testando Thymeleaf", template, variaveis);
+//		List<String> emails = destinatarios.stream()
+//				.map(u -> u.getEmail())
+//				.collect(Collectors.toList());
+	
+		List<String> emails = Arrays.asList("eskokado@gmail.com");
 		
-		System.out.println("Terminado o envio de e-mail...");
+		this.enviarEmail("edsonskok@gmail.com", emails, 
+				"Lançamentos vencidos", template, variaveis);
 	}
 	
-
 	public void enviarEmail(
 			String remetente, List<String> destinatarios, String assunto, 
 			String template, Map<String, Object> variaveis
