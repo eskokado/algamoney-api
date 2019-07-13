@@ -117,7 +117,7 @@ public class LancamentoService {
 		if (StringUtils.isEmpty(lancamento.getAnexo()) 
 				&& StringUtils.hasText(lancamentoSalvo.getAnexo())) {
 			s3.remover(lancamentoSalvo.getAnexo());
-		} else if (StringUtils.hasLength(lancamento.getAnexo())
+		} else if (StringUtils.hasText(lancamento.getAnexo())
 				&& !lancamento.getAnexo().equals(lancamentoSalvo.getAnexo())) {
 			s3.substituir(lancamentoSalvo.getAnexo(), lancamento.getAnexo());
 		}
@@ -147,7 +147,7 @@ public class LancamentoService {
 
 	public void remover(Long codigo) {
 		Lancamento lancamento = buscarLancamentoExistente(codigo);
-		if (StringUtils.hasLength(lancamento.getAnexo())) {
+		if (StringUtils.hasText(lancamento.getAnexo())) {
 			s3.remover(lancamento.getAnexo());
 		}
 		lancamentoRepository.delete(lancamento);		
