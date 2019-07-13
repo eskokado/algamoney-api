@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.eskinfotechweb.algamoneyapi.dto.Anexo;
 import br.com.eskinfotechweb.algamoneyapi.dto.LancamentoEstatisticaCategoria;
 import br.com.eskinfotechweb.algamoneyapi.dto.LancamentoEstatisticaDia;
 import br.com.eskinfotechweb.algamoneyapi.event.RecursoCriadoEvent;
@@ -45,6 +46,7 @@ import br.com.eskinfotechweb.algamoneyapi.repository.filter.LancamentoFilter;
 import br.com.eskinfotechweb.algamoneyapi.repository.lancamento.projection.ResumoLancamento;
 import br.com.eskinfotechweb.algamoneyapi.service.LancamentoService;
 import br.com.eskinfotechweb.algamoneyapi.service.exception.PessoaInexistenteOuInativaException;
+import br.com.eskinfotechweb.algamoneyapi.storage.S3;
 
 @RestController
 @RequestMapping("/lancamentos")
@@ -61,14 +63,20 @@ public class LancamentoResource {
 
 	@Autowired
 	private MessageSource messageSource;
+
+	@Autowired
+	private S3 s3;
 	
 	@PostMapping("/anexo")
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")	
-	public String uploadAnexo(@RequestParam MultipartFile anexo) throws IOException {
-		OutputStream out = new FileOutputStream("d://temp//anexo--" + anexo.getOriginalFilename());
-		out.write(anexo.getBytes());
-		out.close();
-		return "Ok";
+	public Anexo uploadAnexo(@RequestParam MultipartFile anexo) throws IOException {
+		// OutputStream out = new FileOutputStream("d://temp//anexo--" + anexo.getOriginalFilename());
+		// out.write(anexo.getBytes());
+		// out.close();
+		//return "Ok";
+		String nome =  s3.salvarTemporiamente(anexo);
+//		return nome;
+		return new Anexo(nome, s3.configurarUrl(nome));
 	}
 
 	@GetMapping("/relatorios/por-pessoa")
