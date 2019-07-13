@@ -144,4 +144,12 @@ public class LancamentoService {
 		}
 		return lancamentoSalvo;
 	}
+
+	public void remover(Long codigo) {
+		Lancamento lancamento = buscarLancamentoExistente(codigo);
+		if (StringUtils.hasLength(lancamento.getAnexo())) {
+			s3.remover(lancamento.getAnexo());
+		}
+		lancamentoRepository.delete(lancamento);		
+	}
 }
