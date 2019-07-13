@@ -1,5 +1,8 @@
 package br.com.eskinfotechweb.algamoneyapi.resource;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.eskinfotechweb.algamoneyapi.dto.LancamentoEstatisticaCategoria;
 import br.com.eskinfotechweb.algamoneyapi.dto.LancamentoEstatisticaDia;
@@ -56,7 +60,16 @@ public class LancamentoResource {
 	private ApplicationEventPublisher publisher;
 
 	@Autowired
-	private MessageSource messageSource;	
+	private MessageSource messageSource;
+	
+	@PostMapping("/anexo")
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")	
+	public String uploadAnexo(@RequestParam MultipartFile anexo) throws IOException {
+		OutputStream out = new FileOutputStream("d://temp//anexo--" + anexo.getOriginalFilename());
+		out.write(anexo.getBytes());
+		out.close();
+		return "Ok";
+	}
 
 	@GetMapping("/relatorios/por-pessoa")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
