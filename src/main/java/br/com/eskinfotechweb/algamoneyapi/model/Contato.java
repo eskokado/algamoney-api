@@ -33,7 +33,6 @@ public class Contato implements Serializable {
 	@NotEmpty
 	private String telefone;
 
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "codigo_pessoa")
 	private Pessoa pessoa;
