@@ -1,54 +1,52 @@
 package br.com.eskinfotechweb.algamoneyapi.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "pessoa")
-public class Pessoa implements Serializable {
+@Table(name = "contato")
+public class Contato implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 
-	@NotNull
+	@NotEmpty
 	private String nome;
 
-	@Embedded
-	private Endereco endereco;
+	@Email
+	@NotNull
+	private String email;
+
+	@NotEmpty
+	private String telefone;
 
 	@NotNull
-	private Boolean ativo;
+	@ManyToOne
+	@JoinColumn(name = "codigo_pessoa")
+	private Pessoa pessoa;
 
-	@Valid
-	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
-	private List<Contato> contatos = new ArrayList<>();
-
-	public Pessoa() {
+	public Contato() {
 	}
 
-	public Pessoa(Long codigo, String nome, Endereco endereco, Boolean ativo) {
-		super();
+	public Contato(Long codigo, String nome, String email, String telefone, Pessoa pessoa) {
 		this.codigo = codigo;
 		this.nome = nome;
-		this.endereco = endereco;
-		this.ativo = ativo;
+		this.email = email;
+		this.telefone = telefone;
+		this.pessoa = pessoa;
 	}
 
 	public Long getCodigo() {
@@ -67,34 +65,28 @@ public class Pessoa implements Serializable {
 		this.nome = nome;
 	}
 
-	public Endereco getEndereco() {
-		return endereco;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public Boolean isAtivo() {
-		return ativo;
+	public String getTelefone() {
+		return telefone;
 	}
 
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
-	public List<Contato> getContatos() {
-		return contatos;
+	public Pessoa getPessoa() {
+		return pessoa;
 	}
 
-	public void setContatos(List<Contato> contatos) {
-		this.contatos = contatos;
-	}
-
-	@JsonIgnore
-	@Transient
-	public boolean isInativo() {
-		return !this.isAtivo();
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 
 	@Override
@@ -113,7 +105,7 @@ public class Pessoa implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Pessoa other = (Pessoa) obj;
+		Contato other = (Contato) obj;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
