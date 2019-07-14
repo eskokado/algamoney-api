@@ -19,7 +19,6 @@ import com.amazonaws.services.s3.model.lifecycle.LifecycleFilter;
 import com.amazonaws.services.s3.model.lifecycle.LifecycleTagPredicate;
 
 import br.com.eskinfotechweb.algamoneyapi.config.property.AlgamoneyApiProperty;
-import br.com.eskinfotechweb.algamoneyapi.storage.S3;
 
 @Configuration
 public class S3Config {

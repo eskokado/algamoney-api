@@ -1,10 +1,10 @@
 package br.com.eskinfotechweb.algamoneyapi.mail;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -18,7 +18,6 @@ import org.thymeleaf.context.Context;
 
 import br.com.eskinfotechweb.algamoneyapi.model.Lancamento;
 import br.com.eskinfotechweb.algamoneyapi.model.Usuario;
-import br.com.eskinfotechweb.algamoneyapi.repository.LancamentoRepository;
 
 @Component
 public class Mailer {
@@ -29,8 +28,8 @@ public class Mailer {
 	@Autowired
 	private TemplateEngine thymeleaf;
 	
-	@Autowired
-	private LancamentoRepository repo;
+//	@Autowired
+//	private LancamentoRepository repo;
 	
 //	@EventListener
 //	private void teste(ApplicationReadyEvent event) {
@@ -66,11 +65,11 @@ public class Mailer {
 		Map<String, Object> variaveis = new HashMap<>();
 		variaveis.put("lancamentos", vencidos);
 		
-//		List<String> emails = destinatarios.stream()
-//				.map(u -> u.getEmail())
-//				.collect(Collectors.toList());
+		List<String> emails = destinatarios.stream()
+				.map(u -> u.getEmail())
+				.collect(Collectors.toList());
 	
-		List<String> emails = Arrays.asList("eskokado@gmail.com");
+//		List<String> emails = Arrays.asList("eskokado@gmail.com");
 		
 		this.enviarEmail("edsonskok@gmail.com", emails, 
 				"Lançamentos vencidos", template, variaveis);
