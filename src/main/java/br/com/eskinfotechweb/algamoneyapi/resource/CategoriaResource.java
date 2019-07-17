@@ -1,6 +1,7 @@
 package br.com.eskinfotechweb.algamoneyapi.resource;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -50,7 +51,7 @@ public class CategoriaResource {
 	@GetMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
 	public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
-		Categoria categoria = categoriaRepository.findOne(codigo);
-		return (categoria == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(categoria);
+		Optional<Categoria> categoria = categoriaRepository.findById(codigo);
+		return (!categoria.isPresent()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(categoria.get());
 	}
 }

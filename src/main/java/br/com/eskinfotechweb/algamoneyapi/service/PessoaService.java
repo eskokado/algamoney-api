@@ -1,5 +1,7 @@
 package br.com.eskinfotechweb.algamoneyapi.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -16,11 +18,11 @@ public class PessoaService {
 	private PessoaRepository pessoaRepository;
 	
 	public Pessoa buscarPessoaPeloCodigo(Long codigo) {
-		Pessoa pessoa = pessoaRepository.findOne(codigo);
-		if (pessoa == null) {
+		Optional<Pessoa> pessoa = pessoaRepository.findById(codigo);
+		if (!pessoa.isPresent()) {
 			throw new EmptyResultDataAccessException(1);
 		}
-		return pessoa;
+		return pessoa.get();
 	}
 	
 	public Pessoa atualizar(Long codigo, Pessoa pessoa) {
